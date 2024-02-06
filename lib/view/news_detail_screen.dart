@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
-class NewsDetailScreen extends StatefulWidget {
+class NewsDetailScreen extends StatelessWidget {
   final String newsImage,
       newsTitle,
       newsDate,
@@ -11,7 +11,7 @@ class NewsDetailScreen extends StatefulWidget {
       description,
       content,
       source;
-  const NewsDetailScreen(
+  NewsDetailScreen(
       {super.key,
       required this.newsImage,
       required this.newsTitle,
@@ -20,18 +20,12 @@ class NewsDetailScreen extends StatefulWidget {
       required this.description,
       required this.content,
       required this.source});
-
-  @override
-  State<NewsDetailScreen> createState() => _NewsDetailScreenState();
-}
-
-class _NewsDetailScreenState extends State<NewsDetailScreen> {
   final format = DateFormat('MMMM dd, yyyy');
 
   @override
   Widget build(BuildContext context) {
     Size mediaQuery = MediaQuery.of(context).size;
-    DateTime dateTime = DateTime.parse(widget.newsDate);
+    DateTime dateTime = DateTime.parse(newsDate);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
@@ -39,12 +33,12 @@ class _NewsDetailScreenState extends State<NewsDetailScreen> {
       ),
       body: Stack(
         children: [
-          Container(
+          SizedBox(
             height: mediaQuery.height * 0.4,
             child: ClipRRect(
               borderRadius: const BorderRadius.all(Radius.circular(30)),
               child: CachedNetworkImage(
-                imageUrl: widget.newsImage,
+                imageUrl: newsImage,
                 fit: BoxFit.cover,
                 placeholder: (context, ulr) =>
                     const Center(child: CircularProgressIndicator()),
@@ -63,7 +57,7 @@ class _NewsDetailScreenState extends State<NewsDetailScreen> {
             child: ListView(
               children: [
                 Text(
-                  widget.newsTitle,
+                  newsTitle,
                   style: GoogleFonts.poppins(
                       fontSize: 20, fontWeight: FontWeight.bold),
                 ),
@@ -73,7 +67,7 @@ class _NewsDetailScreenState extends State<NewsDetailScreen> {
                 Row(
                   children: [
                     Expanded(
-                      child: Text(widget.source,
+                      child: Text(source,
                           style: GoogleFonts.poppins(
                               fontSize: 15, fontWeight: FontWeight.w600)),
                     ),
@@ -85,7 +79,7 @@ class _NewsDetailScreenState extends State<NewsDetailScreen> {
                 SizedBox(
                   height: mediaQuery.height * 0.03,
                 ),
-                Text(widget.description,
+                Text(description,
                     style: GoogleFonts.poppins(
                         fontSize: 13, fontWeight: FontWeight.w400))
               ],

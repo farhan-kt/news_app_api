@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
-class CategoryDetailScreen extends StatefulWidget {
+class CategoryDetailScreen extends StatelessWidget {
   final String newsImage,
       newsTitle,
       newsDate,
@@ -11,7 +11,7 @@ class CategoryDetailScreen extends StatefulWidget {
       description,
       content,
       source;
-  const CategoryDetailScreen(
+  CategoryDetailScreen(
       {super.key,
       required this.newsImage,
       required this.newsTitle,
@@ -21,17 +21,12 @@ class CategoryDetailScreen extends StatefulWidget {
       required this.content,
       required this.source});
 
-  @override
-  State<CategoryDetailScreen> createState() => _CategoryDetailScreenState();
-}
-
-class _CategoryDetailScreenState extends State<CategoryDetailScreen> {
   final format = DateFormat('MMMM dd, yyyy');
 
   @override
   Widget build(BuildContext context) {
     Size mediaQuery = MediaQuery.of(context).size;
-    DateTime dateTime = DateTime.parse(widget.newsDate);
+    DateTime dateTime = DateTime.parse(newsDate);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
@@ -39,13 +34,13 @@ class _CategoryDetailScreenState extends State<CategoryDetailScreen> {
       ),
       body: Stack(
         children: [
-          Container(
+          SizedBox(
             height: mediaQuery.height * 0.4,
             child: ClipRRect(
               borderRadius: const BorderRadius.only(
                   topLeft: Radius.circular(30), topRight: Radius.circular(30)),
               child: CachedNetworkImage(
-                imageUrl: widget.newsImage,
+                imageUrl: newsImage,
                 fit: BoxFit.cover,
                 placeholder: (context, ulr) =>
                     const Center(child: CircularProgressIndicator()),
@@ -64,7 +59,7 @@ class _CategoryDetailScreenState extends State<CategoryDetailScreen> {
             child: ListView(
               children: [
                 Text(
-                  widget.newsTitle,
+                  newsTitle,
                   style: GoogleFonts.poppins(
                       fontSize: 20, fontWeight: FontWeight.bold),
                 ),
@@ -74,7 +69,7 @@ class _CategoryDetailScreenState extends State<CategoryDetailScreen> {
                 Row(
                   children: [
                     Expanded(
-                      child: Text(widget.source,
+                      child: Text(source,
                           style: GoogleFonts.poppins(
                               fontSize: 15, fontWeight: FontWeight.w600)),
                     ),
@@ -84,14 +79,27 @@ class _CategoryDetailScreenState extends State<CategoryDetailScreen> {
                   ],
                 ),
                 SizedBox(
-                  height: mediaQuery.height * 0.03,
+                  height: mediaQuery.height * 0.04,
                 ),
-                Text(widget.description,
-                    style: GoogleFonts.poppins(
-                        fontSize: 13, fontWeight: FontWeight.w400))
+                Card(
+                  elevation: 5,
+                  child: Padding(
+                    padding: const EdgeInsets.all(5),
+                    child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text('DESCRIPTION',
+                              style: GoogleFonts.poppins(
+                                  fontSize: 13, fontWeight: FontWeight.w500)),
+                          Text(description,
+                              style: GoogleFonts.poppins(
+                                  fontSize: 13, fontWeight: FontWeight.w500)),
+                        ]),
+                  ),
+                )
               ],
             ),
-          )
+          ),
         ],
       ),
     );
